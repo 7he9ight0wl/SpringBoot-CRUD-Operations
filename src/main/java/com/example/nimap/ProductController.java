@@ -1,9 +1,11 @@
 package com.example.nimap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -14,8 +16,10 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+    public Page<Product> getAllProducts(@RequestParam(defaultValue = "0") int page,
+                                        @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productService.getAllProducts(pageable);
     }
 
     @GetMapping("/{id}")
@@ -36,5 +40,5 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public boolean deleteProduct(@PathVariable Long id) {
         return productService.deleteProduct(id);
-}
+    }
 }

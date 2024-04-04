@@ -1,8 +1,8 @@
 package com.example.nimap;
 
-import com.example.nimap.Category;
-import com.example.nimap.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,5 +40,10 @@ public class CategoryService {
             return true;
         }
         return false;
-}
+    }
+
+    // Pagination method
+    public Page<Category> getPaginatedCategories(int page, int size) {
+        return categoryRepository.findAll(PageRequest.of(page, size));
+    }
 }
